@@ -1,5 +1,3 @@
-package Array;
-
 public class reverse_integer_7 {
 
     public static int reverse(int x) {
