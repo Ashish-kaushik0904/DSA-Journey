@@ -1,84 +1,53 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class three_sum_15 {
 
-    public static List<List<Integer>> sum(int nums[]){
-        Set<List<Integer>> list = new HashSet<>();
-        Arrays.sort(nums);
+   public static List<List<Integer>> threeSum(int arr[]) {
 
-        for(int i=0; i<nums.length-2; i++){
-            int low = i+1;
-            int high = nums.length-1;
+      Arrays.sort(arr);
+      List<List<Integer>> list = new ArrayList<>();
 
-            while(low < high){
-                int sum = nums[i] + nums[low] + nums[high];
+      // we need to traverse i, 2 element before last element
+      for (int i = 0; i < arr.length - 2; i++) {
 
-                if(sum == 0){
-                    list.add(Arrays.asList(nums[i], nums[low], nums[high]));
+         // When we move i, if i+1 == i then again move i duplicate i not consider again
+         if (i > 0 && arr[i] == arr[i - 1]) {
+            continue;
+         }
 
-                    low++;
-                    high--;
-                }
-                else if(sum < 0){
-                    low++;
-                }
-                else{
-                    high--;
-                }
+         int j = i + 1;
+         int k = arr.length - 1;
+
+         while (j < k) {
+            int sum = arr[i] + arr[j] + arr[k];
+
+            if (sum < 0) {
+               j++;
+            } else if (sum > 0) {
+               k--;
+            } else {
+               list.add(Arrays.asList(arr[i], arr[j], arr[k]));
+               while (j < k && arr[j] == arr[j + 1]) {
+                  j++;
+               }
+               while (j < k && arr[k] == arr[k - 1]) {
+                  k--;
+               }
+
+               j++;
+               k--;
             }
-        }
+         }
 
-        return new ArrayList<>(list);
-    }
-    public static void main(String args[]){
-        int nums[] = {-1,0,1,2,-1,-4};
+      }
+      return list;
+   }
 
-        List<List<Integer>> result = sum(nums);
+   public static void main(String args[]) {
+      int arr[] = { -1, 0, 1, 2, -1, -4 };
 
-        System.out.println(result);
-    }
+      System.out.println(threeSum(arr));
+   }
 }
-
-
-// Solution 2 ***************************************
-
-/* public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-
-        Arrays.sort(nums);
-
-        for(int i=0; i<nums.length - 2; i++){
-            if(i>0 && nums[i] == nums[i-1]){
-                continue;
-            }
-
-            int left = i+1;
-            int right = nums.length-1;
-
-            while(left < right){
-                int sum = nums[i] + nums[left] + nums[right];
-
-                if(sum == 0){
-                    result.add(Arrays.asList(nums[i],nums[left],nums[right]));
-
-                    left++;
-                    right--;
-
-                    while(left < right && nums[left] == nums[left - 1]){
-                        left++;
-                    }
-
-                    while(left < right && nums[right] == nums[right + 1]){
-                        right--;
-                    }
-                }
-                else if(sum < 0){
-                    left++;
-                }
-                else{
-                    right--;
-                }
-            }
-        }
-        return result;
-    } */
