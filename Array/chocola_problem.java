@@ -2,46 +2,49 @@ import java.util.*;
 
 public class chocola_problem {
 
-    public static void cost(Integer hor[], Integer ver[]){
-        Arrays.sort(hor, Collections.reverseOrder());
-        Arrays.sort(ver, Collections.reverseOrder());
+    public static int check(int[] x, int[] y) {
 
-        int h = 0, v = 0;
-        int hp = 1, vp = 1;
-        int cost = 0;
+        Arrays.sort(x);
+        Arrays.sort(y);
+        int vcut = 1;
+        int hcut = 1;
+        int hori = y.length - 1;
+        int verj = x.length - 1;
+        int sum = 0;
 
-        while(h < hor.length && v < ver.length){
+        while (hori >= 0 && verj >= 0) {
 
-            if(ver[v] <= hor[h]){ // Horizontal Cut
-               cost += hor[h]*vp;
-               hp++;
-               h++;
+            if (y[hori] > x[verj]) {
+                sum += y[hori] * vcut;
+                hcut++;
+                hori--;
+            } else {
+                sum += x[verj] * hcut;
+                vcut++;
+                verj--;
             }
-            else{  // Vertical Cut
-                cost += ver[v]*hp;
-                vp++;
-                v++;
-            }
         }
 
-        while(h < hor.length){
-            cost += hor[h]*vp;
-            hp++;
-            h++;
+        while (hori >= 0) {
+            sum += y[hori] * vcut;
+            hcut++;
+            hori--;
         }
 
-        while(v < ver.length){
-            cost += ver[v]*hp;
-            vp++;
-            v++;
+        while (verj >= 0) {
+            sum += x[verj] * hcut;
+            vcut++;
+            verj--;
         }
 
-        System.out.println("Min. cost is: "+ cost);
+        return sum;
+
     }
-    public static void main(String args[]){
-        Integer hor[] = {4,2,1};
-        Integer ver[] = {4,3,2,1,1};
 
-        cost(hor, ver);
+    public static void main(String args[]) {
+        int y[] = { 4, 2, 1 }; // y = horizontal Array
+        int x[] = { 4, 3, 2, 1, 1 }; // x = vertical Array
+
+        System.out.println(check(y, x));
     }
 }
